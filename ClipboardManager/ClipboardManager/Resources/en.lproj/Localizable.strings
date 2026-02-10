@@ -4,7 +4,7 @@
 */
 
 // MARK: - App Info
-"app.title" = "Clipboard Manager";
+"app.title" = "Memento";
 "app.description" = "Smart Clipboard History Management";
 "app.tagline" = "We cherish memories that fade away.";
 
@@ -13,7 +13,7 @@
 "menu.hide_window" = "Hide Window";
 "menu.preferences" = "Preferences...";
 "menu.quit" = "Quit";
-"menu.about" = "About Clipboard Manager";
+"menu.about" = "About Memento";
 
 // MARK: - Search
 "search.placeholder" = "Search...";

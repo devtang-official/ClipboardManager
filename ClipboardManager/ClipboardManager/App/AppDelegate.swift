@@ -158,18 +158,40 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     // MARK: - NSMenuDelegate
-    
+
     func menuWillOpen(_ menu: NSMenu) {
         updateMenuItems()
+
+        // statusItem 메뉴가 아닌 경우 (즉, 다른 메뉴가 열리는 경우)
+        // About 메뉴가 여전히 우리 커스텀으로 연결되어 있는지 확인
+        if menu != statusItem?.menu {
+            ensureAboutMenuSetup()
+        }
     }
-    
+
     private func updateMenuItems() {
         let isWindowVisible = floatingWindowController?.window?.isVisible ?? false
-        
+
         if isWindowVisible {
             toggleMenuItem?.title = NSLocalizedString("menu.hide_window", comment: "")
         } else {
             toggleMenuItem?.title = NSLocalizedString("menu.show_window", comment: "")
+        }
+    }
+
+    private func ensureAboutMenuSetup() {
+        guard let mainMenu = NSApp.mainMenu,
+              let appMenuItem = mainMenu.items.first,
+              let appMenu = appMenuItem.submenu else { return }
+
+        // About 메뉴 아이템 찾아서 우리 커스텀 메서드로 연결되어 있는지 확인
+        for item in appMenu.items {
+            if item.action == #selector(NSApplication.orderFrontStandardAboutPanel(_:)) ||
+               item.action == #selector(showAbout) {
+                item.action = #selector(showAbout)
+                item.target = self
+                break
+            }
         }
     }
 }

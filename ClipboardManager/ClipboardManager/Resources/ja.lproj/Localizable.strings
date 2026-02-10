@@ -4,7 +4,7 @@
 */
 
 // MARK: - App Info
-"app.title" = "クリップボードマネージャー";
+"app.title" = "Memento";
 "app.description" = "スマートクリップボード履歴管理";
 "app.tagline" = "忘れゆく記憶を大切に保ちます。";
 
@@ -13,7 +13,7 @@
 "menu.hide_window" = "ウィンドウを非表示";
 "menu.preferences" = "環境設定...";
 "menu.quit" = "終了";
-"menu.about" = "クリップボードマネージャーについて";
+"menu.about" = "Mementoについて";
 
 // MARK: - Search
 "search.placeholder" = "検索...";

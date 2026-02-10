@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		004AB94D2F3AD1AA004458E1 /* ClipboardManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipboardManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		004AB94D2F3AD1AA004458E1 /* Memento.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memento.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -40,7 +40,7 @@
 		004AB94E2F3AD1AA004458E1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				004AB94D2F3AD1AA004458E1 /* ClipboardManager.app */,
+				004AB94D2F3AD1AA004458E1 /* Memento.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,7 +67,7 @@
 			packageProductDependencies = (
 			);
 			productName = ClipboardManager;
-			productReference = 004AB94D2F3AD1AA004458E1 /* ClipboardManager.app */;
+			productReference = 004AB94D2F3AD1AA004458E1 /* Memento.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -264,7 +264,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsupport.rx.host.sdk.application.rxrvhost.ClipboardManager;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Memento;
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -294,7 +294,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsupport.rx.host.sdk.application.rxrvhost.ClipboardManager;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Memento;
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

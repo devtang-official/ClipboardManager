@@ -4,7 +4,7 @@
 */
 
 // MARK: - App Info
-"app.title" = "클립보드 매니저";
+"app.title" = "Memento";
 "app.description" = "스마트 클립보드 히스토리 관리";
 "app.tagline" = "잊혀지는 기억을 소중히 간직하겠습니다.";
 
@@ -13,7 +13,7 @@
 "menu.hide_window" = "윈도우 닫기";
 "menu.preferences" = "설정...";
 "menu.quit" = "종료";
-"menu.about" = "클립보드 매니저 정보";
+"menu.about" = "Memento 정보";
 
 // MARK: - Search
 "search.placeholder" = "검색...";
