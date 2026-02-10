@@ -19,10 +19,8 @@ class FloatingWindowController: NSWindowController {
         window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         window.isReleasedWhenClosed = false
 
-        // 최대화 버튼 비활성화
-        window.standardWindowButton(.zoomButton)?.isEnabled = false
-
-        // 최소화 버튼 숨기기 (메뉴바 앱이므로 Dock으로 최소화되면 안됨)
+        // 최대화/최소화 버튼 숨기기 (메뉴바 앱이므로 불필요)
+        window.standardWindowButton(.zoomButton)?.isHidden = true
         window.standardWindowButton(.miniaturizeButton)?.isHidden = true
 
         window.center()
@@ -45,9 +43,15 @@ class FloatingWindowController: NSWindowController {
         guard let window = window else { return }
 
         let newSize = isCompact ? compactSize : normalSize
+
+        // 윈도우 상단 위치를 고정하고 크기만 변경
+        let currentFrame = window.frame
+        let newOriginY = currentFrame.maxY - newSize.height  // 상단 고정
         let newFrame = NSRect(
-            origin: window.frame.origin,
-            size: newSize
+            x: currentFrame.origin.x,
+            y: newOriginY,
+            width: newSize.width,
+            height: newSize.height
         )
 
         // 애니메이션으로 크기 변경
