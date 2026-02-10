@@ -5,6 +5,7 @@ import Combine
 class ClipboardMonitor: ObservableObject {
     private var timer: Timer?
     private var lastChangeCount: Int
+    private var shouldIgnoreNextChange: Bool = false
 
     // 새로운 클립보드 항목이 감지되었을 때 호출되는 클로저
     var onNewItem: ((ClipboardItem) -> Void)?
@@ -34,6 +35,11 @@ class ClipboardMonitor: ObservableObject {
         lastChangeCount = NSPasteboard.general.changeCount
     }
 
+    // 다음 클립보드 변경을 무시하도록 설정
+    func ignoreNextChange() {
+        shouldIgnoreNextChange = true
+    }
+
     // 클립보드 변경 확인
     private func checkClipboard() {
         let pasteboard = NSPasteboard.general
@@ -42,6 +48,12 @@ class ClipboardMonitor: ObservableObject {
         // changeCount가 변경되었으면 새로운 복사가 발생한 것
         guard currentChangeCount != lastChangeCount else { return }
         lastChangeCount = currentChangeCount
+
+        // 다음 변경 무시 플래그가 설정되어 있으면 무시
+        if shouldIgnoreNextChange {
+            shouldIgnoreNextChange = false
+            return
+        }
 
         // 클립보드에서 데이터 추출
         if let item = extractClipboardItem(from: pasteboard) {

@@ -59,19 +59,11 @@ class ClipboardViewModel: ObservableObject {
     }
 
     func copyToClipboard(item: ClipboardItem) {
-        // 모니터링 일시 중단
-        monitor.stopMonitoring()
+        // 다음 클립보드 변경 무시 플래그 설정
+        monitor.ignoreNextChange()
 
         // 클립보드에 복사
         store.copyToClipboard(item: item)
-
-        // 잠시 후 모니터링 재개 (클립보드 변경 무시)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-            guard let self = self else { return }
-            // changeCount를 현재 값으로 업데이트하여 이 변경을 무시
-            self.monitor.updateChangeCount()
-            self.monitor.startMonitoring()
-        }
     }
 
     func clearSearch() {
