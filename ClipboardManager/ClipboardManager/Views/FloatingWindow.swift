@@ -14,6 +14,10 @@ class FloatingWindowController: NSWindowController {
         window.level = .floating
         window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         window.isReleasedWhenClosed = false
+
+        // 최대화 버튼 비활성화
+        window.standardWindowButton(.zoomButton)?.isEnabled = false
+
         window.center()
 
         // SwiftUI 뷰 설정

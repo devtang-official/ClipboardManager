@@ -44,12 +44,16 @@ class ClipboardStore: ObservableObject {
             switch item.content {
             case .text(let text):
                 return text.localizedCaseInsensitiveContains(query)
+            case .image(_, let fileName):
+                // 이미지 파일 이름으로 검색
+                if let fileName = fileName {
+                    return fileName.localizedCaseInsensitiveContains(query)
+                }
+                return false
             case .url(let url):
                 return url.absoluteString.localizedCaseInsensitiveContains(query)
             case .filePath(let url):
                 return url.lastPathComponent.localizedCaseInsensitiveContains(query)
-            case .image:
-                return false
             }
         }
     }
