@@ -22,6 +22,9 @@ class FloatingWindowController: NSWindowController {
         // 최대화 버튼 비활성화
         window.standardWindowButton(.zoomButton)?.isEnabled = false
 
+        // 최소화 버튼 숨기기 (메뉴바 앱이므로 Dock으로 최소화되면 안됨)
+        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+
         window.center()
 
         // SwiftUI 뷰 설정
