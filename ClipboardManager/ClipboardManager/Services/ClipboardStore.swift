@@ -47,7 +47,7 @@ class ClipboardStore: ObservableObject {
             switch item.content {
             case .text(let text):
                 return text.localizedCaseInsensitiveContains(query)
-            case .image(_, let fileName):
+            case .image(_, let fileName, _):
                 // 이미지 파일 이름으로 검색
                 if let fileName = fileName {
                     return fileName.localizedCaseInsensitiveContains(query)
@@ -69,8 +69,14 @@ class ClipboardStore: ObservableObject {
         switch item.content {
         case .text(let text):
             pasteboard.setString(text, forType: .string)
-        case .image(let image, _):  // fileName 무시
-            pasteboard.writeObjects([image])
+        case .image(let image, _, let fileURL):
+            // 파일 경로가 있으면 파일로 복사 (Finder에 붙여넣기 가능)
+            // 없으면 이미지 데이터로 복사 (스크린샷 등)
+            if let fileURL = fileURL {
+                pasteboard.writeObjects([fileURL as NSURL])
+            } else {
+                pasteboard.writeObjects([image])
+            }
         case .filePath(let url):
             pasteboard.writeObjects([url as NSURL])
         case .url(let url):
@@ -88,7 +94,7 @@ class ClipboardStore: ObservableObject {
                 return new == old
             case (.filePath(let new), .filePath(let old)):
                 return new == old
-            case (.image(_, let newFileName), .image(_, let oldFileName)):
+            case (.image(_, let newFileName, _), .image(_, let oldFileName, _)):
                 // 파일 이름이 있는 경우에만 비교 (스크린샷은 항상 새로 추가)
                 if let newName = newFileName, let oldName = oldFileName {
                     return newName == oldName

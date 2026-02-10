@@ -18,7 +18,8 @@ class ClipboardMonitor: ObservableObject {
     func startMonitoring() {
         // 앱 시작 시 현재 클립보드 내용 읽기 (강제로 로드)
         let pasteboard = NSPasteboard.general
-        if let item = extractClipboardItem(from: pasteboard) {
+        let items = extractClipboardItems(from: pasteboard)
+        for item in items {
             onNewItem?(item)
         }
         // changeCount 업데이트하여 중복 방지
@@ -60,31 +61,39 @@ class ClipboardMonitor: ObservableObject {
             return
         }
 
-        // 클립보드에서 데이터 추출
-        if let item = extractClipboardItem(from: pasteboard) {
+        // 클립보드에서 데이터 추출 (여러 개 가능)
+        let items = extractClipboardItems(from: pasteboard)
+        for item in items {
             onNewItem?(item)
         }
     }
 
     // 클립보드에서 데이터 추출 (우선순위: 파일 > URL > 이미지 > 텍스트)
-    private func extractClipboardItem(from pasteboard: NSPasteboard) -> ClipboardItem? {
+    // 다중 파일 지원: 여러 파일이 복사된 경우 각각을 개별 항목으로 반환
+    private func extractClipboardItems(from pasteboard: NSPasteboard) -> [ClipboardItem] {
+        var items: [ClipboardItem] = []
+
         // 1. 파일 URL 확인 (Finder에서 복사한 파일)
         if let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
-           let fileURL = urls.first,
-           fileURL.isFileURL {
-            // 이미지 파일 확장자 체크
-            let imageExtensions = ["png", "jpg", "jpeg", "gif", "bmp", "tiff", "heic", "heif", "webp"]
-            let fileExtension = fileURL.pathExtension.lowercased()
+           !urls.isEmpty,
+           urls.first?.isFileURL == true {
+            // 각 파일에 대해 개별 항목 생성
+            for fileURL in urls where fileURL.isFileURL {
+                // 이미지 파일 확장자 체크
+                let imageExtensions = ["png", "jpg", "jpeg", "gif", "bmp", "tiff", "heic", "heif", "webp"]
+                let fileExtension = fileURL.pathExtension.lowercased()
 
-            if imageExtensions.contains(fileExtension) {
-                // 이미지 파일이면 이미지로 로드
-                if let image = NSImage(contentsOf: fileURL) {
-                    return ClipboardItem(content: .image(image, fileName: fileURL.lastPathComponent))
+                if imageExtensions.contains(fileExtension) {
+                    // 이미지 파일이면 이미지로 로드 (파일 경로도 저장)
+                    if let image = NSImage(contentsOf: fileURL) {
+                        items.append(ClipboardItem(content: .image(image, fileName: fileURL.lastPathComponent, fileURL: fileURL)))
+                    }
+                } else {
+                    // 일반 파일
+                    items.append(ClipboardItem(content: .filePath(fileURL)))
                 }
             }
-
-            // 일반 파일
-            return ClipboardItem(content: .filePath(fileURL))
+            return items
         }
 
         // 2. URL 확인 (http, https 등)
@@ -92,19 +101,19 @@ class ClipboardMonitor: ObservableObject {
            let url = URL(string: string),
            url.scheme != nil,
            (url.scheme == "http" || url.scheme == "https" || url.scheme == "ftp") {
-            return ClipboardItem(content: .url(url))
+            return [ClipboardItem(content: .url(url))]
         }
 
         // 3. 이미지 데이터 확인 (스크린샷, 이미지 앱에서 복사 등)
         if let image = NSImage(pasteboard: pasteboard) {
-            return ClipboardItem(content: .image(image, fileName: nil))
+            return [ClipboardItem(content: .image(image, fileName: nil, fileURL: nil))]
         }
 
         // 4. 텍스트 확인
         if let string = pasteboard.string(forType: .string) {
-            return ClipboardItem(content: .text(string))
+            return [ClipboardItem(content: .text(string))]
         }
 
-        return nil
+        return []
     }
 }

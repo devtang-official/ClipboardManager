@@ -104,7 +104,7 @@ struct ClipboardItemRow: View {
         switch item.content {
         case .text(let text):
             return text
-        case .image(_, let fileName):
+        case .image(_, let fileName, _):
             // 파일 이름이 있으면 표시, 없으면 "Image"
             if let fileName = fileName {
                 return "🖼️ \(fileName)"
