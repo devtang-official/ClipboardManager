@@ -17,6 +17,9 @@ class ClipboardStore: ObservableObject {
         // 맨 앞에 추가
         items.insert(item, at: 0)
 
+        // 고정된 항목이 항상 최상단에 오도록 정렬
+        sortItems()
+
         // 최대 개수 제한
         if items.count > maxItems {
             items.removeLast()

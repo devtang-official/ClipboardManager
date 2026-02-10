@@ -6,6 +6,7 @@
 // MARK: - App Info
 "app.title" = "Clipboard Manager";
 "app.description" = "Smart Clipboard History Management";
+"app.tagline" = "We cherish memories that fade away.";
 
 // MARK: - Menu Bar
 "menu.show_window" = "Show Window";

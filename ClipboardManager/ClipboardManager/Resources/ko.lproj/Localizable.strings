@@ -6,6 +6,7 @@
 // MARK: - App Info
 "app.title" = "클립보드 매니저";
 "app.description" = "스마트 클립보드 히스토리 관리";
+"app.tagline" = "잊혀지는 기억을 소중히 간직하겠습니다.";
 
 // MARK: - Menu Bar
 "menu.show_window" = "윈도우 열기";

@@ -6,6 +6,7 @@
 // MARK: - App Info
 "app.title" = "クリップボードマネージャー";
 "app.description" = "スマートクリップボード履歴管理";
+"app.tagline" = "忘れゆく記憶を大切に保ちます。";
 
 // MARK: - Menu Bar
 "menu.show_window" = "ウィンドウを表示";

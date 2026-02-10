@@ -89,24 +89,36 @@ struct ClipboardHistoryView: View {
         }
     }
 
-    // Compact 모드 뷰 (간소화)
+    // Compact 모드 뷰 (2줄 구조)
     private var compactModeView: some View {
-        HStack(spacing: 12) {
-            // 토글 버튼
-            Button(action: {
-                viewModel.toggleCompactMode()
-            }) {
-                Image(systemName: "chevron.up.chevron.down")
-                    .font(.system(size: 14))
-                    .foregroundColor(.secondary)
+        VStack(spacing: 4) {
+            // 첫 줄: 토글 + 검색바 + 카운트
+            HStack(spacing: 8) {
+                // 토글 버튼
+                Button(action: {
+                    viewModel.toggleCompactMode()
+                }) {
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.system(size: 13))
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Toggle Normal Mode")
+
+                // 검색바 (인라인)
+                SearchBar(text: $viewModel.searchQuery)
+
+                // 아이템 카운트
+                if !displayedItems.isEmpty {
+                    Text(String(format: NSLocalizedString("history.item_count", comment: ""), displayedItems.count))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
-            .buttonStyle(.plain)
-            .help("Toggle Normal Mode")
+            .padding(.horizontal, 12)
+            .padding(.top, 6)
 
-            // 검색바 (인라인)
-            SearchBar(text: $viewModel.searchQuery)
-
-            // 첫 번째 아이템만 표시
+            // 두 번째 줄: 첫 번째 아이템 표시
             if let firstItem = displayedItems.first {
                 ClipboardItemRow(
                     item: firstItem,
@@ -120,23 +132,16 @@ struct ClipboardHistoryView: View {
                         viewModel.deleteItem(id: firstItem.id)
                     }
                 )
-                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 6)
             } else {
                 Text("history.empty")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity)
-            }
-
-            // 아이템 카운트
-            if !displayedItems.isEmpty {
-                Text(String(format: NSLocalizedString("history.item_count", comment: ""), displayedItems.count))
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .padding(.vertical, 8)
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
     }
 
     private var displayedItems: [ClipboardItem] {
@@ -167,7 +172,7 @@ struct ClipboardHistoryView: View {
         alert.messageText = NSLocalizedString("history.clear_all", comment: "")
         alert.informativeText = NSLocalizedString("history.clear_all.confirm", comment: "")
         alert.alertStyle = .warning
-        alert.icon = nil  // 아이콘 제거
+        alert.icon = NSApp.applicationIconImage  // 앱 아이콘 사용
         alert.addButton(withTitle: NSLocalizedString("action.confirm", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("action.cancel", comment: ""))
 
