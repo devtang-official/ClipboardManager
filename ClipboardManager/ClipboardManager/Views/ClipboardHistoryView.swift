@@ -181,6 +181,9 @@ struct ClipboardHistoryView: View {
             for item in viewModel.items {
                 viewModel.deleteItem(id: item.id)
             }
+
+            // 시스템 클립보드도 비우기
+            NSPasteboard.general.clearContents()
         }
     }
 }
