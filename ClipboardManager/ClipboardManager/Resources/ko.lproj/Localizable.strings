@@ -1,0 +1,90 @@
+/*
+  Localizable.strings (Korean)
+  ClipboardManager
+*/
+
+// MARK: - App Info
+"app.title" = "클립보드 매니저";
+"app.description" = "스마트 클립보드 히스토리 관리";
+
+// MARK: - Menu Bar
+"menu.show_window" = "윈도우 열기";
+"menu.hide_window" = "윈도우 닫기";
+"menu.preferences" = "설정...";
+"menu.quit" = "종료";
+"menu.about" = "클립보드 매니저 정보";
+
+// MARK: - Search
+"search.placeholder" = "검색...";
+"search.no_results" = "검색 결과가 없습니다";
+"search.clear" = "검색 지우기";
+
+// MARK: - Clipboard History
+"history.title" = "클립보드 히스토리";
+"history.empty" = "클립보드가 비어있습니다";
+"history.empty.description" = "텍스트, 이미지, 파일 또는 URL을 복사하면 여기에 표시됩니다";
+"history.item_count" = "%d개 항목";
+"history.clear_all" = "모두 지우기";
+"history.clear_all.confirm" = "모든 히스토리를 삭제하시겠습니까?";
+
+// MARK: - Clipboard Types
+"type.text" = "텍스트";
+"type.image" = "이미지";
+"type.file" = "파일";
+"type.url" = "URL";
+
+// MARK: - Actions
+"action.copy" = "복사";
+"action.delete" = "삭제";
+"action.pin" = "고정";
+"action.unpin" = "고정 해제";
+"action.cancel" = "취소";
+"action.confirm" = "확인";
+"action.close" = "닫기";
+
+// MARK: - Context Menu
+"context.copy_to_clipboard" = "클립보드에 복사";
+"context.delete_item" = "항목 삭제";
+"context.pin_item" = "항목 고정";
+"context.unpin_item" = "고정 해제";
+
+// MARK: - Notifications
+"notification.copied" = "클립보드에 복사되었습니다";
+"notification.deleted" = "항목이 삭제되었습니다";
+"notification.pinned" = "항목이 고정되었습니다";
+"notification.unpinned" = "고정이 해제되었습니다";
+
+// MARK: - Permissions
+"permission.accessibility.title" = "접근성 권한 필요";
+"permission.accessibility.message" = "글로벌 단축키를 사용하려면 접근성 권한이 필요합니다.";
+"permission.accessibility.button" = "시스템 설정 열기";
+"permission.accessibility.later" = "나중에";
+
+// MARK: - Settings
+"settings.title" = "설정";
+"settings.general" = "일반";
+"settings.hotkey" = "단축키";
+"settings.appearance" = "외모";
+"settings.about" = "정보";
+"settings.max_items" = "최대 항목 수";
+"settings.launch_at_login" = "로그인 시 자동 실행";
+
+// MARK: - Hotkey
+"hotkey.register" = "단축키 등록";
+"hotkey.current" = "현재 단축키: %@";
+"hotkey.default" = "기본값: ⌘⇧V";
+"hotkey.change" = "변경";
+"hotkey.disabled" = "비활성화됨";
+
+// MARK: - Errors
+"error.title" = "오류";
+"error.unknown" = "알 수 없는 오류가 발생했습니다";
+"error.clipboard_access" = "클립보드에 접근할 수 없습니다";
+"error.save_failed" = "저장에 실패했습니다";
+
+// MARK: - Time
+"time.just_now" = "방금 전";
+"time.minutes_ago" = "%d분 전";
+"time.hours_ago" = "%d시간 전";
+"time.days_ago" = "%d일 전";
+"time.weeks_ago" = "%d주 전";

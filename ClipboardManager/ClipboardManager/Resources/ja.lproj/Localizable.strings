@@ -1,0 +1,90 @@
+/*
+  Localizable.strings (Japanese)
+  ClipboardManager
+*/
+
+// MARK: - App Info
+"app.title" = "クリップボードマネージャー";
+"app.description" = "スマートクリップボード履歴管理";
+
+// MARK: - Menu Bar
+"menu.show_window" = "ウィンドウを表示";
+"menu.hide_window" = "ウィンドウを非表示";
+"menu.preferences" = "環境設定...";
+"menu.quit" = "終了";
+"menu.about" = "クリップボードマネージャーについて";
+
+// MARK: - Search
+"search.placeholder" = "検索...";
+"search.no_results" = "結果が見つかりません";
+"search.clear" = "検索をクリア";
+
+// MARK: - Clipboard History
+"history.title" = "クリップボード履歴";
+"history.empty" = "クリップボードは空です";
+"history.empty.description" = "テキスト、画像、ファイル、またはURLをコピーするとここに表示されます";
+"history.item_count" = "%d個のアイテム";
+"history.clear_all" = "すべてクリア";
+"history.clear_all.confirm" = "すべての履歴を削除してもよろしいですか？";
+
+// MARK: - Clipboard Types
+"type.text" = "テキスト";
+"type.image" = "画像";
+"type.file" = "ファイル";
+"type.url" = "URL";
+
+// MARK: - Actions
+"action.copy" = "コピー";
+"action.delete" = "削除";
+"action.pin" = "ピン留め";
+"action.unpin" = "ピン留め解除";
+"action.cancel" = "キャンセル";
+"action.confirm" = "確認";
+"action.close" = "閉じる";
+
+// MARK: - Context Menu
+"context.copy_to_clipboard" = "クリップボードにコピー";
+"context.delete_item" = "アイテムを削除";
+"context.pin_item" = "アイテムをピン留め";
+"context.unpin_item" = "ピン留め解除";
+
+// MARK: - Notifications
+"notification.copied" = "クリップボードにコピーしました";
+"notification.deleted" = "アイテムを削除しました";
+"notification.pinned" = "アイテムをピン留めしました";
+"notification.unpinned" = "ピン留めを解除しました";
+
+// MARK: - Permissions
+"permission.accessibility.title" = "アクセシビリティ権限が必要です";
+"permission.accessibility.message" = "グローバルホットキーを使用するにはアクセシビリティ権限が必要です。";
+"permission.accessibility.button" = "システム設定を開く";
+"permission.accessibility.later" = "後で";
+
+// MARK: - Settings
+"settings.title" = "設定";
+"settings.general" = "一般";
+"settings.hotkey" = "ホットキー";
+"settings.appearance" = "外観";
+"settings.about" = "について";
+"settings.max_items" = "最大アイテム数";
+"settings.launch_at_login" = "ログイン時に起動";
+
+// MARK: - Hotkey
+"hotkey.register" = "ホットキーを登録";
+"hotkey.current" = "現在のホットキー: %@";
+"hotkey.default" = "デフォルト: ⌘⇧V";
+"hotkey.change" = "変更";
+"hotkey.disabled" = "無効";
+
+// MARK: - Errors
+"error.title" = "エラー";
+"error.unknown" = "不明なエラーが発生しました";
+"error.clipboard_access" = "クリップボードにアクセスできません";
+"error.save_failed" = "保存に失敗しました";
+
+// MARK: - Time
+"time.just_now" = "たった今";
+"time.minutes_ago" = "%d分前";
+"time.hours_ago" = "%d時間前";
+"time.days_ago" = "%d日前";
+"time.weeks_ago" = "%d週間前";

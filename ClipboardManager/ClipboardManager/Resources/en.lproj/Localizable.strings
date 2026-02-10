@@ -1,0 +1,90 @@
+/*
+  Localizable.strings (English)
+  ClipboardManager
+*/
+
+// MARK: - App Info
+"app.title" = "Clipboard Manager";
+"app.description" = "Smart Clipboard History Management";
+
+// MARK: - Menu Bar
+"menu.show_window" = "Show Window";
+"menu.hide_window" = "Hide Window";
+"menu.preferences" = "Preferences...";
+"menu.quit" = "Quit";
+"menu.about" = "About Clipboard Manager";
+
+// MARK: - Search
+"search.placeholder" = "Search...";
+"search.no_results" = "No results found";
+"search.clear" = "Clear Search";
+
+// MARK: - Clipboard History
+"history.title" = "Clipboard History";
+"history.empty" = "Clipboard is empty";
+"history.empty.description" = "Copy text, images, files, or URLs and they will appear here";
+"history.item_count" = "%d items";
+"history.clear_all" = "Clear All";
+"history.clear_all.confirm" = "Are you sure you want to delete all history?";
+
+// MARK: - Clipboard Types
+"type.text" = "Text";
+"type.image" = "Image";
+"type.file" = "File";
+"type.url" = "URL";
+
+// MARK: - Actions
+"action.copy" = "Copy";
+"action.delete" = "Delete";
+"action.pin" = "Pin";
+"action.unpin" = "Unpin";
+"action.cancel" = "Cancel";
+"action.confirm" = "Confirm";
+"action.close" = "Close";
+
+// MARK: - Context Menu
+"context.copy_to_clipboard" = "Copy to Clipboard";
+"context.delete_item" = "Delete Item";
+"context.pin_item" = "Pin Item";
+"context.unpin_item" = "Unpin Item";
+
+// MARK: - Notifications
+"notification.copied" = "Copied to clipboard";
+"notification.deleted" = "Item deleted";
+"notification.pinned" = "Item pinned";
+"notification.unpinned" = "Item unpinned";
+
+// MARK: - Permissions
+"permission.accessibility.title" = "Accessibility Permission Required";
+"permission.accessibility.message" = "Accessibility permission is required to use global hotkeys.";
+"permission.accessibility.button" = "Open System Settings";
+"permission.accessibility.later" = "Later";
+
+// MARK: - Settings
+"settings.title" = "Settings";
+"settings.general" = "General";
+"settings.hotkey" = "Hotkey";
+"settings.appearance" = "Appearance";
+"settings.about" = "About";
+"settings.max_items" = "Maximum Items";
+"settings.launch_at_login" = "Launch at Login";
+
+// MARK: - Hotkey
+"hotkey.register" = "Register Hotkey";
+"hotkey.current" = "Current Hotkey: %@";
+"hotkey.default" = "Default: ⌘⇧V";
+"hotkey.change" = "Change";
+"hotkey.disabled" = "Disabled";
+
+// MARK: - Errors
+"error.title" = "Error";
+"error.unknown" = "An unknown error occurred";
+"error.clipboard_access" = "Cannot access clipboard";
+"error.save_failed" = "Save failed";
+
+// MARK: - Time
+"time.just_now" = "Just now";
+"time.minutes_ago" = "%d minutes ago";
+"time.hours_ago" = "%d hours ago";
+"time.days_ago" = "%d days ago";
+"time.weeks_ago" = "%d weeks ago";
