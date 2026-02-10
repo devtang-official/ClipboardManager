@@ -10,7 +10,7 @@ struct ClipboardItem: Identifiable {
 
     enum ClipboardContent {
         case text(String)
-        case image(NSImage)
+        case image(NSImage, fileName: String?)
         case filePath(URL)
         case url(URL)
     }

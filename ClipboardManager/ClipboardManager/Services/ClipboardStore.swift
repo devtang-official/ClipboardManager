@@ -62,7 +62,7 @@ class ClipboardStore: ObservableObject {
         switch item.content {
         case .text(let text):
             pasteboard.setString(text, forType: .string)
-        case .image(let image):
+        case .image(let image, _):  // fileName 무시
             pasteboard.writeObjects([image])
         case .filePath(let url):
             pasteboard.writeObjects([url as NSURL])

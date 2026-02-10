@@ -74,7 +74,7 @@ class ClipboardMonitor: ObservableObject {
             if imageExtensions.contains(fileExtension) {
                 // 이미지 파일이면 이미지로 로드
                 if let image = NSImage(contentsOf: fileURL) {
-                    return ClipboardItem(content: .image(image))
+                    return ClipboardItem(content: .image(image, fileName: fileURL.lastPathComponent))
                 }
             }
 
@@ -92,7 +92,7 @@ class ClipboardMonitor: ObservableObject {
 
         // 3. 이미지 데이터 확인 (스크린샷, 이미지 앱에서 복사 등)
         if let image = NSImage(pasteboard: pasteboard) {
-            return ClipboardItem(content: .image(image))
+            return ClipboardItem(content: .image(image, fileName: nil))
         }
 
         // 4. 텍스트 확인
