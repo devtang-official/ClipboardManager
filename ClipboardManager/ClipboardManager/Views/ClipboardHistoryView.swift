@@ -12,7 +12,7 @@ struct ClipboardHistoryView: View {
 
                 Spacer()
 
-                Text("history.item_count")
+                Text(String(format: NSLocalizedString("history.item_count", comment: ""), displayedItems.count))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
