@@ -1,5 +1,6 @@
 import Foundation
 import AppKit
+import Combine
 
 class ClipboardMonitor: ObservableObject {
     private var timer: Timer?
