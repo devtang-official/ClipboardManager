@@ -108,6 +108,7 @@ struct ClipboardHistoryView: View {
         alert.messageText = NSLocalizedString("history.clear_all", comment: "")
         alert.informativeText = NSLocalizedString("history.clear_all.confirm", comment: "")
         alert.alertStyle = .warning
+        alert.icon = nil  // 아이콘 제거
         alert.addButton(withTitle: NSLocalizedString("action.confirm", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("action.cancel", comment: ""))
 

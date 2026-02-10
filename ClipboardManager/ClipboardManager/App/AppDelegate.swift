@@ -45,11 +45,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 메뉴 생성
         let menu = NSMenu()
 
-        menu.addItem(NSMenuItem(
+        let toggleMenuItem = NSMenuItem(
             title: NSLocalizedString("menu.show_window", comment: ""),
             action: #selector(toggleWindow),
-            keyEquivalent: ""
-        ))
+            keyEquivalent: "v"
+        )
+        toggleMenuItem.keyEquivalentModifierMask = [.command, .shift]
+        menu.addItem(toggleMenuItem)
 
         menu.addItem(NSMenuItem.separator())
 
@@ -82,5 +84,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func quitApp() {
         NSApp.terminate(nil)
+    }
+
+    // Dock 아이콘 클릭 시 윈도우 표시
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            // 보이는 윈도우가 없으면 윈도우 표시
+            floatingWindowController?.window?.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+        return true
     }
 }

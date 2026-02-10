@@ -54,8 +54,12 @@ class FloatingWindowController: NSWindowController {
             height: newSize.height
         )
 
-        // 애니메이션으로 크기 변경
-        window.setFrame(newFrame, display: true, animate: true)
+        // 부드러운 애니메이션으로 크기 변경
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = 0.25  // 0.25초 애니메이션
+            context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            window.animator().setFrame(newFrame, display: true)
+        })
     }
 
     func toggle() {
