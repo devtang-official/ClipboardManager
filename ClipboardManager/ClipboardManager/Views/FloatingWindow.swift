@@ -23,7 +23,18 @@ class FloatingWindowController: NSWindowController {
         window.standardWindowButton(.zoomButton)?.isHidden = true
         window.standardWindowButton(.miniaturizeButton)?.isHidden = true
 
-        window.center()
+        // 화면 좌하단에 배치
+        if let screen = NSScreen.main {
+            let screenFrame = screen.visibleFrame
+            
+            // 좌하단: x는 왼쪽, y는 아래
+            let padding: CGFloat = 20  // 가장자리에서 약간 떨어뜨림
+            let x = screenFrame.minX + padding
+            let y = screenFrame.minY + padding
+            
+            let origin = NSPoint(x: x, y: y)
+            window.setFrameOrigin(origin)
+        }
 
         // SwiftUI 뷰 설정
         let contentView = ClipboardHistoryView(viewModel: viewModel)

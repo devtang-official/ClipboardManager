@@ -1,11 +1,17 @@
 import Cocoa
 import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var statusItem: NSStatusItem?
     var floatingWindowController: FloatingWindowController?
     var viewModel: ClipboardViewModel?
     var hotkeyManager: HotkeyManager?
+    var toggleMenuItem: NSMenuItem?
+    
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        // 기본 앱 메뉴 커스터마이징 (앱 시작 전에 설정)
+        setupMainMenu()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // ViewModel 초기화
@@ -44,33 +50,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // 메뉴 생성
         let menu = NSMenu()
-
-        // About 메뉴
-        menu.addItem(NSMenuItem(
-            title: NSLocalizedString("menu.about", comment: ""),
-            action: #selector(showAbout),
-            keyEquivalent: ""
-        ))
-
-        menu.addItem(NSMenuItem.separator())
+        menu.delegate = self
 
         // 윈도우 토글 메뉴
-        let toggleMenuItem = NSMenuItem(
+        toggleMenuItem = NSMenuItem(
             title: NSLocalizedString("menu.show_window", comment: ""),
             action: #selector(toggleWindow),
             keyEquivalent: "v"
         )
-        toggleMenuItem.keyEquivalentModifierMask = [.command, .shift]
-        menu.addItem(toggleMenuItem)
+        toggleMenuItem?.keyEquivalentModifierMask = [.command, .shift]
+        toggleMenuItem?.target = self
+        menu.addItem(toggleMenuItem!)
 
         menu.addItem(NSMenuItem.separator())
 
         // 종료 메뉴
-        menu.addItem(NSMenuItem(
+        let quitMenuItem = NSMenuItem(
             title: NSLocalizedString("menu.quit", comment: ""),
             action: #selector(quitApp),
             keyEquivalent: "q"
-        ))
+        )
+        quitMenuItem.target = self
+        menu.addItem(quitMenuItem)
 
         // 오른쪽 클릭 메뉴 설정
         statusItem?.menu = menu
@@ -78,6 +79,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 왼쪽 클릭은 직접 toggleWindow 호출
         if let button = statusItem?.button {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        }
+    }
+    
+    private func setupMainMenu() {
+        guard let mainMenu = NSApp.mainMenu else { return }
+        
+        // 첫 번째 메뉴 아이템(앱 메뉴)의 서브메뉴 가져오기
+        guard let appMenuItem = mainMenu.items.first,
+              let appMenu = appMenuItem.submenu else { return }
+        
+        // About 메뉴 아이템 찾아서 우리 커스텀 메서드로 연결
+        for item in appMenu.items {
+            if item.action == #selector(NSApplication.orderFrontStandardAboutPanel(_:)) {
+                item.action = #selector(showAbout)
+                item.target = self
+                break
+            }
         }
     }
 
@@ -90,21 +108,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func showAbout() {
-        // 플로팅 윈도우 완전히 숨김
-        let wasVisible = floatingWindowController?.window?.isVisible ?? false
-        floatingWindowController?.window?.orderOut(nil)
-
-        // 슬로건 텍스트 준비
+        // 앱 아이콘 로드
+        let appIcon = NSApp.applicationIconImage ?? NSImage()
+        appIcon.size = NSSize(width: 128, height: 128)
+        
+        // 슬로건
         let tagline = NSLocalizedString("app.tagline", comment: "")
-        let credits = NSMutableAttributedString()
-
-        // 위에 공간 추가
-        credits.append(NSAttributedString(string: "\n\n"))
-
-        // 슬로건 추가 (가운데 정렬)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-
+        
+        let credits = NSMutableAttributedString()
+        credits.append(NSAttributedString(string: "\n\n"))
         credits.append(NSAttributedString(
             string: tagline,
             attributes: [
@@ -113,21 +127,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .paragraphStyle: paragraphStyle
             ]
         ))
-
-        NSApp.orderFrontStandardAboutPanel(options: [
+        
+        let options: [NSApplication.AboutPanelOptionKey: Any] = [
             .applicationName: NSLocalizedString("app.title", comment: ""),
             .applicationVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
             .credits: credits,
-            .applicationIcon: NSApp.applicationIconImage ?? NSImage()
-        ])
+            .applicationIcon: appIcon
+        ]
+        
+        NSApp.orderFrontStandardAboutPanel(options: options)
         NSApp.activate(ignoringOtherApps: true)
-
-        // About 창이 닫히면 플로팅 윈도우 복원 (3초 후, 원래 보였다면)
-        if wasVisible {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-                self?.floatingWindowController?.window?.makeKeyAndOrderFront(nil)
-            }
-        }
     }
 
     @objc private func toggleWindow() {
@@ -146,5 +155,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.activate(ignoringOtherApps: true)
         }
         return true
+    }
+    
+    // MARK: - NSMenuDelegate
+    
+    func menuWillOpen(_ menu: NSMenu) {
+        updateMenuItems()
+    }
+    
+    private func updateMenuItems() {
+        let isWindowVisible = floatingWindowController?.window?.isVisible ?? false
+        
+        if isWindowVisible {
+            toggleMenuItem?.title = NSLocalizedString("menu.hide_window", comment: "")
+        } else {
+            toggleMenuItem?.title = NSLocalizedString("menu.show_window", comment: "")
+        }
     }
 }
