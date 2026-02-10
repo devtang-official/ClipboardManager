@@ -71,9 +71,15 @@ swift run
 - 핀 고정 기능 및 정렬 (고정 항목 우선)
 - 검색 및 필터링 기능
 
+**글로벌 단축키** - `HotkeyManager.swift`
+- Carbon API를 사용한 시스템 전역 단축키 등록
+- Command + Shift + V로 윈도우 토글
+- 추가 라이브러리 의존성 없음
+
 **UI 컴포넌트** - `Views/` 폴더
 - 메뉴바 아이콘 (NSStatusItem) - `AppDelegate`
 - 플로팅 윈도우 (NSWindow.Level.floating) - `FloatingWindow`
+  - 일반 모드 (400x600) / 컴팩트 모드 (400x60) 전환 가능
 - 히스토리 목록 (SwiftUI) - `ClipboardHistoryView`
 - 검색바 - `SearchBar`
 - 항목 행 - `ClipboardItemRow`
@@ -119,9 +125,27 @@ class ClipboardMonitor {
 }
 ```
 
-### 글로벌 단축키 등록
-- Carbon 기반 또는 서드파티 라이브러리 (예: MASShortcut, KeyboardShortcuts)
-- 접근성 권한 확인 필요
+### 글로벌 단축키 등록 (구현 완료 ✅)
+```swift
+class HotkeyManager {
+    private var hotKeyRef: EventHotKeyRef?
+    private var eventHandler: EventHandlerRef?
+    var onHotkeyPressed: (() -> Void)?
+
+    func registerHotkey() {
+        // Command + Shift + V (keycode 9)
+        let keyCode: UInt32 = 9
+        let modifiers: UInt32 = UInt32(cmdKey | shiftKey)
+
+        // Carbon API로 시스템 전역 단축키 등록
+        RegisterEventHotKey(keyCode, modifiers, hotkeyID,
+                           GetApplicationEventTarget(), 0, &hotKeyRef)
+    }
+}
+```
+- Carbon API 사용 (추가 의존성 없음)
+- Command + Shift + V로 윈도우 토글
+- 접근성 권한 불필요
 
 ### 다국어 문자열 사용 패턴
 ```swift
@@ -152,32 +176,37 @@ Text("clipboard.count \(count)")
 ## Dependencies
 
 ### 현재 의존성
-- **없음** - 순수 SwiftUI + AppKit으로 구현
-
-### 향후 추가 예정
-- **KeyboardShortcuts** (Swift Package Manager)
-  - 글로벌 단축키 (⌘⇧V) 구현을 위해 필요
-  - GitHub: https://github.com/sindresorhus/KeyboardShortcuts
-  - `HotkeyManager.swift`에서 사용 예정
+- **없음** - 순수 SwiftUI + AppKit + Carbon API로 구현
+- 모든 기능이 macOS 기본 프레임워크로 구현됨
 
 ## 구현 상태
 
 ### ✅ 완료된 기능
 - 프로젝트 구조 및 폴더 구성
 - 데이터 모델 (ClipboardItem, ClipboardItemType)
-- 서비스 레이어 (ClipboardMonitor, ClipboardStore)
-- ViewModel (ClipboardViewModel)
-- UI 컴포넌트 (SearchBar, ClipboardItemRow, ClipboardHistoryView)
-- 플로팅 윈도우 및 메뉴바 통합
+- 서비스 레이어
+  - ClipboardMonitor (폴링 기반, 중복 방지)
+  - ClipboardStore (메모리 저장, 최대 100개)
+  - HotkeyManager (Carbon API 기반)
+- ViewModel (ClipboardViewModel, Combine 활용)
+- UI 컴포넌트
+  - SearchBar, ClipboardItemRow, ClipboardHistoryView
+  - 호버 효과, 복사 피드백 애니메이션
+- 플로팅 윈도우
+  - 항상 위 표시 (NSWindow.Level.floating)
+  - Compact/일반 모드 전환 (400x60 ↔ 400x600)
+  - 최대화 버튼 비활성화
+- 메뉴바 통합 (NSStatusItem)
+- 글로벌 단축키 (Command + Shift + V)
 - 다국어 지원 (한국어, 영어, 일본어)
-- 검색 및 필터링
+- 검색 및 필터링 (텍스트, 이미지 파일명 포함)
 - 핀 고정 기능
+- 타입별 아이콘 및 미리보기 (텍스트, 이미지, 파일, URL)
 - 빌드 및 실행 가능
 
 ### 🚧 향후 개선 사항
-- 글로벌 단축키 구현 (KeyboardShortcuts 라이브러리 통합)
-- Info.plist 설정 (`LSUIElement = YES`)
-- 접근성 권한 요청 로직
-- 설정 화면
+- Info.plist 설정 (`LSUIElement = YES` - Dock 아이콘 숨김)
+- 설정 화면 (단축키 커스터마이징, 최대 항목 수 등)
 - Launch at Login 기능
 - 데이터 영속성 (선택사항)
+- 클립보드 히스토리 내보내기/가져오기
