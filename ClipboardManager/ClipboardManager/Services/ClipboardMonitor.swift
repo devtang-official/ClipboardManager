@@ -29,6 +29,11 @@ class ClipboardMonitor: ObservableObject {
         timer = nil
     }
 
+    // 현재 changeCount를 업데이트하여 다음 체크를 건너뛰도록
+    func updateChangeCount() {
+        lastChangeCount = NSPasteboard.general.changeCount
+    }
+
     // 클립보드 변경 확인
     private func checkClipboard() {
         let pasteboard = NSPasteboard.general

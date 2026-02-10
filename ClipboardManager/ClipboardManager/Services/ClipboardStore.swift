@@ -9,9 +9,9 @@ class ClipboardStore: ObservableObject {
 
     // 새 항목 추가
     func add(item: ClipboardItem) {
-        // 중복 확인 (같은 내용이면 추가하지 않음)
-        if isDuplicate(item) {
-            return
+        // 중복 항목 찾기 및 삭제
+        if let existingIndex = findDuplicateIndex(item) {
+            items.remove(at: existingIndex)
         }
 
         // 맨 앞에 추가
@@ -71,19 +71,20 @@ class ClipboardStore: ObservableObject {
         }
     }
 
-    // 중복 확인
-    private func isDuplicate(_ newItem: ClipboardItem) -> Bool {
-        guard let firstItem = items.first else { return false }
-
-        switch (newItem.content, firstItem.content) {
-        case (.text(let new), .text(let old)):
-            return new == old
-        case (.url(let new), .url(let old)):
-            return new == old
-        case (.filePath(let new), .filePath(let old)):
-            return new == old
-        default:
-            return false
+    // 중복 확인 로직 개선
+    private func findDuplicateIndex(_ newItem: ClipboardItem) -> Int? {
+        return items.firstIndex { existingItem in
+            switch (newItem.content, existingItem.content) {
+            case (.text(let new), .text(let old)):
+                return new == old
+            case (.url(let new), .url(let old)):
+                return new == old
+            case (.filePath(let new), .filePath(let old)):
+                return new == old
+            // 이미지는 비교하지 않음 (항상 새로 추가)
+            default:
+                return false
+            }
         }
     }
 
