@@ -16,8 +16,13 @@ class ClipboardMonitor: ObservableObject {
 
     // 모니터링 시작
     func startMonitoring() {
-        // 앱 시작 시 현재 클립보드 내용 읽기
-        checkClipboard()
+        // 앱 시작 시 현재 클립보드 내용 읽기 (강제로 로드)
+        let pasteboard = NSPasteboard.general
+        if let item = extractClipboardItem(from: pasteboard) {
+            onNewItem?(item)
+        }
+        // changeCount 업데이트하여 중복 방지
+        lastChangeCount = pasteboard.changeCount
 
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.checkClipboard()
