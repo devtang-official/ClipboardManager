@@ -81,7 +81,12 @@ class ClipboardStore: ObservableObject {
                 return new == old
             case (.filePath(let new), .filePath(let old)):
                 return new == old
-            // 이미지는 비교하지 않음 (항상 새로 추가)
+            case (.image(_, let newFileName), .image(_, let oldFileName)):
+                // 파일 이름이 있는 경우에만 비교 (스크린샷은 항상 새로 추가)
+                if let newName = newFileName, let oldName = oldFileName {
+                    return newName == oldName
+                }
+                return false
             default:
                 return false
             }
