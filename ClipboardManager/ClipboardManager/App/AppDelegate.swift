@@ -5,6 +5,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     var floatingWindowController: FloatingWindowController?
     var viewModel: ClipboardViewModel?
+    var hotkeyManager: HotkeyManager?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // ViewModel 초기화
@@ -20,6 +21,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             floatingWindowController?.window?.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
         }
+
+        // 글로벌 단축키 설정 (Command + Shift + V)
+        setupHotkey()
 
         // 메인 윈도우 숨기기
         NSApp.windows.forEach { window in
@@ -62,6 +66,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem?.button {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
+    }
+
+    private func setupHotkey() {
+        hotkeyManager = HotkeyManager()
+        hotkeyManager?.onHotkeyPressed = { [weak self] in
+            self?.toggleWindow()
+        }
+        hotkeyManager?.registerHotkey()
     }
 
     @objc private func toggleWindow() {
