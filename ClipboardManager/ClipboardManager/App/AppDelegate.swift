@@ -16,6 +16,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 플로팅 윈도우 생성
         if let viewModel = viewModel {
             floatingWindowController = FloatingWindowController(viewModel: viewModel)
+            // 앱 시작 시 윈도우 표시
+            floatingWindowController?.window?.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
         }
 
         // 메인 윈도우 숨기기

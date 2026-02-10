@@ -15,6 +15,9 @@ class ClipboardMonitor: ObservableObject {
 
     // 모니터링 시작
     func startMonitoring() {
+        // 앱 시작 시 현재 클립보드 내용 읽기
+        checkClipboard()
+
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.checkClipboard()
         }

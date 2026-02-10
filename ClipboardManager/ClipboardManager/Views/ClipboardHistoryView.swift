@@ -12,6 +12,23 @@ struct ClipboardHistoryView: View {
 
                 Spacer()
 
+                // 모두 삭제 버튼 추가
+                if !displayedItems.isEmpty {
+                    Button(action: {
+                        clearAllItems()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "trash")
+                                .font(.system(size: 12))
+                            Text("history.clear_all")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.red)
+                    }
+                    .buttonStyle(.plain)
+                    .help("history.clear_all")
+                }
+
                 Text(String(format: NSLocalizedString("history.item_count", comment: ""), displayedItems.count))
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -72,6 +89,23 @@ struct ClipboardHistoryView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
+    }
+
+    private func clearAllItems() {
+        // 확인 알림 표시
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("history.clear_all", comment: "")
+        alert.informativeText = NSLocalizedString("history.clear_all.confirm", comment: "")
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: NSLocalizedString("action.confirm", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("action.cancel", comment: ""))
+
+        if alert.runModal() == .alertFirstButtonReturn {
+            // 모든 항목 삭제
+            for item in viewModel.items {
+                viewModel.deleteItem(id: item.id)
+            }
+        }
     }
 }
 

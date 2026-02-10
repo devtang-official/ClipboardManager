@@ -7,6 +7,7 @@ struct ClipboardItemRow: View {
     let onDelete: () -> Void
 
     @State private var justCopied: Bool = false
+    @State private var isHovered: Bool = false
 
     var body: some View {
         HStack(spacing: 12) {
@@ -61,18 +62,25 @@ struct ClipboardItemRow: View {
         .background(
             justCopied
                 ? Color.accentColor.opacity(0.3)
-                : Color(nsColor: .controlBackgroundColor).opacity(0.5)
+                : isHovered
+                    ? Color(nsColor: .controlBackgroundColor).opacity(0.8)
+                    : Color(nsColor: .controlBackgroundColor).opacity(0.5)
         )
         .cornerRadius(8)
         .contentShape(Rectangle())
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isHovered = hovering
+            }
+        }
         .onTapGesture {
             onCopy()
             // 복사 피드백 애니메이션
-            withAnimation(.easeInOut(duration: 0.2)) {
+            withAnimation(.easeInOut(duration: 0.1)) {
                 justCopied = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                withAnimation(.easeInOut(duration: 0.2)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation(.easeInOut(duration: 0.1)) {
                     justCopied = false
                 }
             }
