@@ -113,21 +113,25 @@ xcodebuild test -project ClipboardManager.xcodeproj -scheme ClipboardManager
 
 ## 🗺️ Roadmap
 
-- [ ] Core functionality
-  - [x] Clipboard monitoring
-  - [x] History storage (in-memory)
-  - [ ] Search & filtering
-  - [ ] Pin/favorite items
-  - [ ] Multiple clipboard types
-- [ ] UI/UX
-  - [ ] Floating window
-  - [ ] Menu bar integration
-  - [ ] Dark mode support
-- [ ] Features
-  - [ ] Global hotkey
-  - [ ] Multi-language support
+- [x] **Core functionality** ✅
+  - [x] Clipboard monitoring (NSPasteboard polling)
+  - [x] History storage (in-memory, max 100 items)
+  - [x] Search & filtering
+  - [x] Pin/favorite items
+  - [x] Multiple clipboard types (Text, Image, File, URL)
+- [x] **UI/UX** ✅
+  - [x] Floating window (항상 위에 표시)
+  - [x] Menu bar integration (메뉴바 아이콘)
+  - [x] Dark mode support (시스템 자동 대응)
+- [x] **Multi-language** ✅
+  - [x] Korean localization
+  - [x] English localization
+  - [x] Japanese localization
+- [ ] **Advanced Features** (향후 구현)
+  - [ ] Global hotkey (KeyboardShortcuts 라이브러리 통합 필요)
   - [ ] Export/import history
   - [ ] Sync with iCloud
+  - [ ] Launch at login
 
 ## 📝 License
 

@@ -56,20 +56,32 @@ swift run
 
 ## Architecture
 
-### Core Components (프로젝트 진행에 따라 업데이트)
+### Core Components (구현 완료 ✅)
 
-**클립보드 모니터링**
+**클립보드 모니터링** - `ClipboardMonitor.swift`
 - macOS의 `NSPasteboard` API를 사용하여 클립보드 변경사항 감지
-- Polling 또는 `NSPasteboard.changeCount` 모니터링
+- 0.5초 간격 Timer 기반 폴링 방식
+- `NSPasteboard.changeCount` 추적으로 변경 감지
+- 우선순위: 이미지 > 파일 URL > URL > 텍스트
 
-**데이터 저장**
-- 클립보드 히스토리 저장 방식 (Core Data, SQLite, 또는 파일 시스템)
-- 텍스트, 이미지, 파일 등 다양한 타입 지원
+**데이터 저장** - `ClipboardStore.swift`
+- 메모리 기반 히스토리 저장 (최대 100개 항목)
+- `ObservableObject`로 SwiftUI와 자동 동기화
+- 중복 감지 및 제거
+- 핀 고정 기능 및 정렬 (고정 항목 우선)
+- 검색 및 필터링 기능
 
-**UI 컴포넌트**
-- 메뉴바 아이콘 (NSStatusItem)
-- 히스토리 팝오버 또는 윈도우
-- 글로벌 단축키 지원
+**UI 컴포넌트** - `Views/` 폴더
+- 메뉴바 아이콘 (NSStatusItem) - `AppDelegate`
+- 플로팅 윈도우 (NSWindow.Level.floating) - `FloatingWindow`
+- 히스토리 목록 (SwiftUI) - `ClipboardHistoryView`
+- 검색바 - `SearchBar`
+- 항목 행 - `ClipboardItemRow`
+
+**ViewModel** - `ClipboardViewModel.swift`
+- MVVM 아키텍처의 ViewModel 레이어
+- Combine을 활용한 반응형 프로그래밍
+- Services와 Views 연결
 
 **다국어 지원 (Localization)**
 - 지원 언어: 한국어(ko), 영어(en), 일본어(ja)
@@ -139,7 +151,33 @@ Text("clipboard.count \(count)")
 
 ## Dependencies
 
-프로젝트에 추가되는 의존성은 여기에 문서화하세요:
-- Swift Package Manager를 통한 패키지
-- CocoaPods (사용 시)
-- 직접 포함된 라이브러리
+### 현재 의존성
+- **없음** - 순수 SwiftUI + AppKit으로 구현
+
+### 향후 추가 예정
+- **KeyboardShortcuts** (Swift Package Manager)
+  - 글로벌 단축키 (⌘⇧V) 구현을 위해 필요
+  - GitHub: https://github.com/sindresorhus/KeyboardShortcuts
+  - `HotkeyManager.swift`에서 사용 예정
+
+## 구현 상태
+
+### ✅ 완료된 기능
+- 프로젝트 구조 및 폴더 구성
+- 데이터 모델 (ClipboardItem, ClipboardItemType)
+- 서비스 레이어 (ClipboardMonitor, ClipboardStore)
+- ViewModel (ClipboardViewModel)
+- UI 컴포넌트 (SearchBar, ClipboardItemRow, ClipboardHistoryView)
+- 플로팅 윈도우 및 메뉴바 통합
+- 다국어 지원 (한국어, 영어, 일본어)
+- 검색 및 필터링
+- 핀 고정 기능
+- 빌드 및 실행 가능
+
+### 🚧 향후 개선 사항
+- 글로벌 단축키 구현 (KeyboardShortcuts 라이브러리 통합)
+- Info.plist 설정 (`LSUIElement = YES`)
+- 접근성 권한 요청 로직
+- 설정 화면
+- Launch at Login 기능
+- 데이터 영속성 (선택사항)
