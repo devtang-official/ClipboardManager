@@ -6,6 +6,7 @@ class ClipboardViewModel: ObservableObject {
     @Published var items: [ClipboardItem] = []
     @Published var searchQuery: String = ""
     @Published var filteredItems: [ClipboardItem] = []
+    @Published var isCompactMode: Bool = false
 
     // 서비스
     private let monitor: ClipboardMonitor
@@ -74,6 +75,7 @@ class ClipboardViewModel: ObservableObject {
     }
 
     func toggleCompactMode() {
+        isCompactMode.toggle()
         onToggleCompactMode?()
     }
 

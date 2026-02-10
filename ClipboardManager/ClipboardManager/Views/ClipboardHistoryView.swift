@@ -4,6 +4,15 @@ struct ClipboardHistoryView: View {
     @ObservedObject var viewModel: ClipboardViewModel
 
     var body: some View {
+        if viewModel.isCompactMode {
+            compactModeView
+        } else {
+            normalModeView
+        }
+    }
+
+    // 일반 모드 뷰
+    private var normalModeView: some View {
         VStack(spacing: 0) {
             // 헤더
             HStack {
@@ -78,6 +87,56 @@ struct ClipboardHistoryView: View {
                 }
             }
         }
+    }
+
+    // Compact 모드 뷰 (간소화)
+    private var compactModeView: some View {
+        HStack(spacing: 12) {
+            // 토글 버튼
+            Button(action: {
+                viewModel.toggleCompactMode()
+            }) {
+                Image(systemName: "chevron.up.chevron.down")
+                    .font(.system(size: 14))
+                    .foregroundColor(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help("Toggle Normal Mode")
+
+            // 검색바 (인라인)
+            SearchBar(text: $viewModel.searchQuery)
+
+            // 첫 번째 아이템만 표시
+            if let firstItem = displayedItems.first {
+                ClipboardItemRow(
+                    item: firstItem,
+                    onCopy: {
+                        viewModel.copyToClipboard(item: firstItem)
+                    },
+                    onPin: {
+                        viewModel.togglePin(id: firstItem.id)
+                    },
+                    onDelete: {
+                        viewModel.deleteItem(id: firstItem.id)
+                    }
+                )
+                .frame(maxWidth: .infinity)
+            } else {
+                Text("history.empty")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity)
+            }
+
+            // 아이템 카운트
+            if !displayedItems.isEmpty {
+                Text(String(format: NSLocalizedString("history.item_count", comment: ""), displayedItems.count))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
     }
 
     private var displayedItems: [ClipboardItem] {
