@@ -13,6 +13,9 @@ class ClipboardViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
+    // Compact 모드 토글 클로저
+    var onToggleCompactMode: (() -> Void)?
+
     init(monitor: ClipboardMonitor = ClipboardMonitor(),
          store: ClipboardStore = ClipboardStore()) {
         self.monitor = monitor
@@ -68,6 +71,10 @@ class ClipboardViewModel: ObservableObject {
 
     func clearSearch() {
         searchQuery = ""
+    }
+
+    func toggleCompactMode() {
+        onToggleCompactMode?()
     }
 
     // MARK: - Lifecycle

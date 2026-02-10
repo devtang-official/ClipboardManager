@@ -2,6 +2,10 @@ import SwiftUI
 import AppKit
 
 class FloatingWindowController: NSWindowController {
+    private let normalSize = NSSize(width: 400, height: 600)
+    private let compactSize = NSSize(width: 400, height: 60)
+    private var isCompact = false
+
     convenience init(viewModel: ClipboardViewModel) {
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 600),
@@ -25,6 +29,26 @@ class FloatingWindowController: NSWindowController {
         window.contentView = NSHostingView(rootView: contentView)
 
         self.init(window: window)
+
+        // ViewModel에 토글 클로저 전달
+        viewModel.onToggleCompactMode = { [weak self] in
+            self?.toggleCompactMode()
+        }
+    }
+
+    func toggleCompactMode() {
+        isCompact.toggle()
+
+        guard let window = window else { return }
+
+        let newSize = isCompact ? compactSize : normalSize
+        let newFrame = NSRect(
+            origin: window.frame.origin,
+            size: newSize
+        )
+
+        // 애니메이션으로 크기 변경
+        window.setFrame(newFrame, display: true, animate: true)
     }
 
     func toggle() {

@@ -7,12 +7,23 @@ struct ClipboardHistoryView: View {
         VStack(spacing: 0) {
             // 헤더
             HStack {
+                // 토글 버튼 추가 (왼쪽)
+                Button(action: {
+                    viewModel.toggleCompactMode()
+                }) {
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.system(size: 14))
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Toggle Compact Mode")
+
                 Text("history.title")
                     .font(.headline)
 
                 Spacer()
 
-                // 모두 삭제 버튼 추가
+                // 모두 삭제 버튼 (기존)
                 if !displayedItems.isEmpty {
                     Button(action: {
                         clearAllItems()
