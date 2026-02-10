@@ -6,6 +6,8 @@ struct ClipboardItemRow: View {
     let onPin: () -> Void
     let onDelete: () -> Void
 
+    @State private var justCopied: Bool = false
+
     var body: some View {
         HStack(spacing: 12) {
             // 타입 아이콘
@@ -56,11 +58,24 @@ struct ClipboardItemRow: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
-        .background(Color(nsColor: .controlBackgroundColor).opacity(0.5))
+        .background(
+            justCopied
+                ? Color.accentColor.opacity(0.3)
+                : Color(nsColor: .controlBackgroundColor).opacity(0.5)
+        )
         .cornerRadius(8)
         .contentShape(Rectangle())
         .onTapGesture {
             onCopy()
+            // 복사 피드백 애니메이션
+            withAnimation(.easeInOut(duration: 0.2)) {
+                justCopied = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    justCopied = false
+                }
+            }
         }
     }
 
